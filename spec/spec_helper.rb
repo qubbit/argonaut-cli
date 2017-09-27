@@ -1,5 +1,6 @@
-require "bundler/setup"
-require "argonaut"
+require 'bundler/setup'
+require 'pry-byebug'
+require 'argonaut'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
