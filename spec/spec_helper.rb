@@ -1,6 +1,9 @@
-require 'bundler/setup'
 require 'pry-byebug'
-require 'argonaut'
+require 'argonaut/cli'
+require 'argonaut/gateway'
+require 'bundler/setup'
+require 'webmock'
+require 'webmock/rspec'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

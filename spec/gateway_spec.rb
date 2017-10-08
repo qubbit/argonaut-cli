@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'argonaut'
 
 describe Argonaut::Gateway do
   context 'configuration' do
@@ -35,5 +34,4 @@ describe Argonaut::Gateway do
       expect{ Argonaut::Gateway.new(configuration_params) }.not_to raise_error
     end
   end
-
 end

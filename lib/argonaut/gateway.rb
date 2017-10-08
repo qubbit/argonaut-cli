@@ -29,7 +29,7 @@ module Argonaut
     def config
       return @loaded_config if @loaded_config
 
-      config_from_file = self.load_config_from_file
+      config_from_file = Argonaut::Gateway.load_config_from_file
       if config_from_file
         @loaded_config = config_from_file
         return @loaded_config
