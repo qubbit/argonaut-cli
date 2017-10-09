@@ -35,4 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "pry-byebug", "~> 3.4"
   spec.add_development_dependency "webmock", "~> 3.0.1"
+
+  spec.add_dependency "httparty"
 end

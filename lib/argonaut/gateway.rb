@@ -1,4 +1,6 @@
 require 'argonaut/exceptions'
+require 'httparty'
+require 'uri'
 
 module Argonaut
   class Gateway
@@ -50,7 +52,8 @@ module Argonaut
     end
 
     def url_from_path(path)
-      "#{@url_root}#{path}?token=#{@api_token}"
+      # ruby's URI module is shitty, but this should suffice
+      URI.join(@url_root, "/api/", "#{path}?token=#{@api_token}").to_s
     end
 
     def fetch(path:)

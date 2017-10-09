@@ -10,15 +10,15 @@ module Argonaut
     end
 
     def teams
-      @gateway.fetch('teams')
+      @gateway.fetch(path: 'teams')
     end
 
     def reservations(team_id)
-      @gateway.fetch("reservations/#{team_id}")
+      @gateway.fetch(path: "reservations/#{team_id}")
     end
 
     def reserve(team_id, app_name, environment_name)
-      @gateway.post("data")
+      @gateway.post(path: "data")
     end
   end
 end
