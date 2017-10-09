@@ -13,3 +13,8 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+
+def fixture(file)
+  File.read("spec/fixtures/#{file}")
+end

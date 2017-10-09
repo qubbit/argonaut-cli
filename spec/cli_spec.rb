@@ -18,9 +18,10 @@ describe Argonaut::Cli do
       stub_request(:get, "#{gateway.url_root}/api/teams?token=#{gateway.api_token
       }")
         .to_return(status: 200,
-          body: { teams: [ { name: 'epa' }, { name: 'integrations' }] }.to_json
+          body: fixture('teams.json')
         )
       teams = cli.teams
+      binding.pry
       expect(teams).to_not be(nil)
     end
   end

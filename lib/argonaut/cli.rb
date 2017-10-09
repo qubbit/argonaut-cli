@@ -10,7 +10,8 @@ module Argonaut
     end
 
     def teams
-      @gateway.fetch(path: 'teams')
+      raw_data = @gateway.fetch(path: 'teams')
+      raw_data['data']
     end
 
     def reservations(team_id)

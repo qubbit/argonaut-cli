@@ -1,0 +1,45 @@
+{
+    "pagination": {
+        "total_pages": 1,
+        "total_entries": 5,
+        "page_size": 25,
+        "page_number": 1
+    },
+    "data": [
+        {
+            "owner_id": 1,
+            "name": "EPA",
+            "logo_url": null,
+            "id": 1,
+            "description": "\"'We make damn fine plumbing.' -Mike Lustig\" - Michael Scott"
+        },
+        {
+            "owner_id": 6,
+            "name": "Integrations",
+            "logo_url": null,
+            "id": 2,
+            "description": "We hang out in: Payer - Integrations 😎"
+        },
+        {
+            "owner_id": 23,
+            "name": "PIT",
+            "logo_url": null,
+            "id": 3,
+            "description": null
+        },
+        {
+            "owner_id": 1,
+            "name": "CB",
+            "logo_url": null,
+            "id": 4,
+            "description": null
+        },
+        {
+            "owner_id": 1,
+            "name": "Central",
+            "logo_url": null,
+            "id": 5,
+            "description": null
+        }
+    ]
+}

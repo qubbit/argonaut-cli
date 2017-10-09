@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'argonaut'
+require 'optparse'
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: argonaut [options]"
+
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+end.parse!
+
+Argonaut.new(options)
