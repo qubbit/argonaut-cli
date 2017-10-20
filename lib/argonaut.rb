@@ -79,8 +79,9 @@ module Argonaut
     table << :separator
 
     empty_cells = (1..environments.size).map{|_| " "}
+    sentinel = 0
 
-    applications.each_with_index do |a, i|
+    applications.each do |a|
       cells = empty_cells.dup
 
       reservations_for_app = find_reservations_for_app(reservations, a)
@@ -94,25 +95,28 @@ module Argonaut
         end
 
         row = if @colorize_rows
-          colorize_row([ a['name'] ] + cells, i)
+          colorize_row([ a['name'] ] + cells, sentinel)
         else
           [ a['name'] ] + cells
         end
 
         table.add_row(row)
+        sentinel += 1
       end
     end
 
     puts table
   end
 
+  @colors = [122, 141, 153, 163, 172, 178, 183, 186, 223]
   def self.color(index)
-    (index + 31) % 36
+    # (2 * index + 126) % 159
+    @colors[index % @colors.length]
   end
 
   def self.colorize_row(row, index)
     color = color(index)
-    row.map{|cell| "\e[#{color}m#{cell}\e[0m"}
+    row.map{|cell| "\x1b[38;5;#{color}m#{cell}\e[0m"}
   end
 
   def self.find_reservations_for_app(reservations, a)
