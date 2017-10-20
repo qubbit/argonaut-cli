@@ -21,7 +21,6 @@ describe Argonaut::Cli do
           body: fixture('teams.json')
         )
       teams = cli.teams
-      binding.pry
       expect(teams).to_not be(nil)
     end
   end

@@ -1,4 +1,4 @@
-require 'argonaut/exceptions'
+require_relative './exceptions'
 require 'httparty'
 require 'uri'
 
@@ -53,7 +53,7 @@ module Argonaut
 
     def url_from_path(path)
       # ruby's URI module is shitty, but this should suffice
-      URI.join(@url_root, "/api/", "#{path}?token=#{@api_token}").to_s
+      URI.join(@url_root, "/api/readonly/#{path}?token=#{@api_token}").to_s
     end
 
     def fetch(path:)

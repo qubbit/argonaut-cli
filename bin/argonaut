@@ -1,16 +1,60 @@
 #!/usr/bin/env ruby
 
-require 'argonaut'
+THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+
+require 'pry'
+begin
+  require File.dirname(THIS_FILE) + '/../lib/argonaut'
+rescue LoadError
+  # require 'argonaut'
+  # Dir[File.dirname(THIS_FILE) + '/lib/*.rb'].each {|file| require file }
+  require "#{Dir.pwd}/lib/argonaut"
+end
+
 require 'optparse'
 
 options = {}
 
-OptionParser.new do |opts|
-  opts.banner = "Usage: argonaut [options]"
+begin
+  OptionParser.new do |opts|
+    opts.banner = "Usage: argonaut [options]"
 
-  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-    options[:verbose] = v
+    opts.on("-r env:app", "--reserve env:app", "Reserve a testing environment. Passed in value should confirm to <environment>:<app_name> format") do |env_app|
+      options[:env_app] = env_app
+      options[:action] = 'reserve'
+    end
+
+    opts.on("-R env:app", "--release env:app", "Release a testing environment. Passed in value should confirm to <environment>:<app_name> format") do |env_app|
+      options[:env_app] = env_app
+      options[:action] = 'release'
+    end
+
+    opts.on("-t team_name", "--show-team team_name", "Show the status of team with the passed name") do |team_name|
+      options[:team] = team_name
+      options[:action] = 'show_status'
+    end
+
+    opts.on("-f app_name", "--find-app app_name", "Find all apps with passed name") do |app_name|
+      options[:application] = app_name
+      options[:action] = 'find_app'
+    end
+
+    opts.on("-G", "--[no-]color", "Colorize table rows for team status when there is reservations") do |c|
+      options[:colorize_rows] = c
+    end
+
+    opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+      options[:verbose] = v
+    end
+  end.parse!
+rescue OptionParser::InvalidOption
+  $stderr.puts 'Invalid option supplied. Enter argonaut -h for help'
+rescue OptionParser::MissingArgument => ma
+  if ["-r", "-R"].include? ma.args.first
+    $stderr.puts 'Options -r and -R require <environment>:<app_name>'
   end
-end.parse!
+end
 
-Argonaut.new(options)
+require 'ostruct'
+
+Argonaut::exec(OpenStruct.new(options))

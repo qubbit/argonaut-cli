@@ -1,6 +1,125 @@
-class Argonaut
-  def initialize(options)
-    binding.pry
+#dir = File.dirname(__FILE__)
+# $LOAD_PATH.unshift dir unless $LOAD_PATH.include?(dir)
+
+require_relative './argonaut/gateway'
+require_relative './argonaut/cli'
+
+module Argonaut
+  def self.exec(options)
+    puts options.inspect if options.verbose
+    gateway = Argonaut::Gateway.new(api_token: nil, url_root: nil)
+    interface = Argonaut::Cli.new(gateway: gateway)
+
+    action = options.action
+    @colorize_rows = options.colorize_rows
+
+    case action
+    when 'find_app'
+      puts interface.find_status_for_app(options.application)
+    when 'release'
+      app, env = parse_app_env(options.env_app)
+      puts interface.release!(env, app)
+    when 'reserve'
+      app, env = parse_app_env(options.env_app)
+      puts interface.reserve!(app, env)
+    when 'show_status'
+      status = interface.table(options.team)
+      print_status(status)
+    end
+  end
+
+  class Thing
+    def ==(other)
+      @id == other.id
+    end
+
+    def hash
+      @id.hash
+    end
+
+    def eql?(other)
+      self == other
+    end
+  end
+
+  class Application < Thing
+    attr_reader :id, :team_id, :name, :repo, :ping
+
+    def initialize(id:, team_id:, name:, repo:, ping:)
+      @id = id
+      @team_id = team_id
+      @name = name
+    end
+  end
+
+  class Environment < Thing
+    attr_reader :id, :name, :description
+
+    def initialize(id:, name:, description:)
+      @id = id
+      @name = name
+      @description = description
+    end
+  end
+
+  private_class_method
+
+  require 'terminal-table'
+
+  def self.print_status(status_hash)
+    applications = status_hash['applications']
+    environments = status_hash['environments']
+    reservations = status_hash['reservations']
+
+    header = [' '] + environments.map {|e| e['name'] }
+    rows = []
+    rows << header
+
+    table = Terminal::Table.new :rows => rows
+    table << :separator
+
+    empty_cells = (1..environments.size).map{|_| " "}
+
+    applications.each_with_index do |a, i|
+      cells = empty_cells.dup
+
+      reservations_for_app = find_reservations_for_app(reservations, a)
+
+      if reservations_for_app.empty?
+        table.add_row([ a['name'] ] + empty_cells)
+      else
+        reservations_for_app.each do |r|
+          idx = environments.find_index{|e| e['id'] == r['environment']['id'] }
+          cells[idx] = r['user']['username']
+        end
+
+        row = if @colorize_rows
+          colorize_row([ a['name'] ] + cells, i)
+        else
+          [ a['name'] ] + cells
+        end
+
+        table.add_row(row)
+      end
+    end
+
+    puts table
+  end
+
+  def self.color(index)
+    (index + 31) % 36
+  end
+
+  def self.colorize_row(row, index)
+    color = color(index)
+    row.map{|cell| "\e[#{color}m#{cell}\e[0m"}
+  end
+
+  def self.find_reservations_for_app(reservations, a)
+    reservations.select{|r| r['application']['id'] == a['id']}
+  end
+
+  def self.parse_env_app(env_app)
+    env_app.split(':')
   end
 end
-
