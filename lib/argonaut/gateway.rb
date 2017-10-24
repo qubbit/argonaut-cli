@@ -66,13 +66,23 @@ module Argonaut
       end
     end
 
+    def post_form_data(path:, data:)
+      response = HTTParty.post(url_from_path(path), query: data)
+
+      if response.ok?
+        JSON(response.body)
+      else
+        puts response.body
+      end
+    end
+
     def post(path:, data:)
       response = HTTParty.post(url_from_path(path), data)
 
       if response.ok?
         JSON(response.body)
       else
-        nil
+        puts response.body
       end
     end
 

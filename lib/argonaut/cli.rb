@@ -14,20 +14,18 @@ module Argonaut
       raw_data['data']
     end
 
-    def reservations(team_id)
-      @gateway.fetch(path: "teams/#{team_id}/reservations")
+    def reservations(team_name_or_id)
+      @gateway.fetch(path: "teams/#{team_name_or_id}/reservations")
     end
 
-    def reserve!(team_id, app_name, environment_name)
-      @gateway.post(path: "data")
+    def reserve!(env_name, app_name)
+      data = { application_name: app_name, environment_name: env_name }
+      @gateway.post_form_data(path: "reservations", data: data)
     end
 
-    def release!(team_id, app_name, environment_name)
-      @gateway.post(path: "data")
-    end
-
-    def table(team_name)
-      @gateway.fetch(path: "teams/#{team_name}/reservations")
+    def release!(env_name, app_name)
+      data = { application_name: app_name, environment_name: env_name }
+      @gateway.delete(path: "teams/#{team_name_or_id}/reservations", data: data)
     end
   end
 end

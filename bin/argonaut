@@ -19,6 +19,10 @@ begin
   OptionParser.new do |opts|
     opts.banner = "Usage: argonaut [options]"
 
+    opts.on("-T", "--teams", "Show all teams") do |c|
+      options[:action] = 'show_teams'
+    end
+
     opts.on("-r env:app", "--reserve env:app", "Reserve a testing environment. Passed in value should confirm to <environment>:<app_name> format") do |env_app|
       options[:env_app] = env_app
       options[:action] = 'reserve'
@@ -39,8 +43,8 @@ begin
       options[:action] = 'find_app'
     end
 
-    opts.on("-G", "--[no-]color", "Colorize table rows for team status when there is reservations") do |c|
-      options[:colorize_rows] = c
+    opts.on("-G", "--[no-]color", "Colorize table rows for team status when there is reservations") do |colorize|
+      options[:colorize_rows] = colorize
     end
 
     opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|

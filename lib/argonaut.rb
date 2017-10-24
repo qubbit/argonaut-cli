@@ -1,6 +1,3 @@
-#dir = File.dirname(__FILE__)
-# $LOAD_PATH.unshift dir unless $LOAD_PATH.include?(dir)
-
 require_relative './argonaut/gateway'
 require_relative './argonaut/cli'
 
@@ -17,13 +14,16 @@ module Argonaut
     when 'find_app'
       puts interface.find_status_for_app(options.application)
     when 'release'
-      app, env = parse_app_env(options.env_app)
+      env, app = parse_env_app(options.env_app)
       puts interface.release!(env, app)
     when 'reserve'
-      app, env = parse_app_env(options.env_app)
-      puts interface.reserve!(app, env)
+      env, app = parse_env_app(options.env_app)
+      puts interface.reserve!(env, app)
+    when 'show_teams'
+      all_teams = interface.teams
+      print_teams(all_teams)
     when 'show_status'
-      status = interface.table(options.team)
+      status = interface.reservations(options.team)
       print_status(status)
     end
   end
@@ -65,6 +65,19 @@ module Argonaut
   private_class_method
 
   require 'terminal-table'
+
+  def self.print_teams(teams_hash)
+    rows = []
+    rows << ['Id', 'Name', 'Description']
+    table = Terminal::Table.new :rows => rows
+    table << :separator
+
+    teams_hash.each do |t|
+      table.add_row [ t['id'], t['name'], t['description'] ]
+    end
+
+    puts table
+  end
 
   def self.print_status(status_hash)
     applications = status_hash['applications']
