@@ -1,5 +1,6 @@
 require_relative './argonaut/gateway'
 require_relative './argonaut/cli'
+require 'date'
 
 module Argonaut
   def self.exec(options)
@@ -12,7 +13,7 @@ module Argonaut
 
     case action
     when 'find_app'
-      puts interface.find_status_for_app(options.application)
+      puts interface.find_app(options.application)
     when 'release'
       env, app = parse_env_app(options.env_app)
       puts interface.release!(env, app)
@@ -25,6 +26,11 @@ module Argonaut
     when 'show_status'
       status = interface.reservations(options.team)
       print_status(status)
+    when 'clear_reservations'
+      status = interface.clear_reservations
+    when 'list_reservations'
+      data = interface.list_reservations.fetch('data', nil)
+      print_reservations_list(data)
     end
   end
 
@@ -66,6 +72,10 @@ module Argonaut
 
   require 'terminal-table'
 
+  def self.format_date_time(json_time)
+    Time.parse(json_time).strftime('%d %b %Y %l:%M %p')
+  end
+
   def self.print_teams(teams_hash)
     rows = []
     rows << ['Id', 'Name', 'Description']
@@ -76,6 +86,17 @@ module Argonaut
       table.add_row [ t['id'], t['name'], t['description'] ]
     end
 
+    puts table
+  end
+
+  def self.print_reservations_list(data)
+    rows = []
+
+    data.each do |r|
+      rows << [ r['environment'], r['application'], format_date_time(r['reserved_at']) ]
+    end
+
+    table = Terminal::Table.new :headings => [ 'Environment', 'Application', 'Reserved At' ], :rows => rows
     puts table
   end
 

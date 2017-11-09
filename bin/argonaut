@@ -13,7 +13,8 @@ end
 
 require 'optparse'
 
-options = {}
+# By default show user's reservations if no arguments are supplied
+options = { action: 'list_reservations' }
 
 begin
   OptionParser.new do |opts|
@@ -43,11 +44,19 @@ begin
       options[:action] = 'find_app'
     end
 
+    opts.on("-c", "--clear", "Clears all the reservations made by you") do |clear|
+      options[:action] = "clear_reservations"
+    end
+
+    opts.on("-l", "--list", "List all your reservations") do |clear|
+      options[:action] = "list_reservations"
+    end
+
     opts.on("-G", "--[no-]color", "Colorize table rows for team status when there is reservations") do |colorize|
       options[:colorize_rows] = colorize
     end
 
-    opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    opts.on("-v", "--[no-]verbose", "Run the application logging information about things that happen under the hood") do |v|
       options[:verbose] = v
     end
   end.parse!

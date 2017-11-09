@@ -39,7 +39,7 @@ module Argonaut
 
       @loaded_config = {
         'api_token' => ENV['ARGONAUT_API_TOKEN'],
-        'url_root' => ENV['ARGONAUT_URL_ROOT']
+        'url_root'  => ENV['ARGONAUT_URL_ROOT']
       }
 
       if ENV['ARGONAUT_API_TOKEN'].nil?
@@ -56,8 +56,22 @@ module Argonaut
       URI.join(@url_root, "/api/readonly/#{path}?token=#{@api_token}").to_s
     end
 
-    def fetch(path:)
-      response = HTTParty.get(url_from_path(path))
+    def delete(path:, data:)
+      response = HTTParty.delete(url_from_path(path), query: data)
+
+      if response.ok?
+        JSON(response.body)
+      else
+        puts response.body
+      end
+    end
+
+    def fetch(path:, data: nil)
+      response = if data
+        HTTParty.get(url_from_path(path), query: data)
+      else
+        HTTParty.get(url_from_path(path))
+      end
 
       if response.ok?
         JSON(response.body)
