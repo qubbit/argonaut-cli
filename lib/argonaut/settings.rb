@@ -7,7 +7,7 @@ module Argonaut
     private_class_method
 
     def self.read_config
-      YAML.load_file("#{Dir.home}/.argonaut.yml")
+      YAML.load_file("#{Dir.home}/.argonaut.yml").with_indifferent_access
     rescue
       { options: {
           colorize_rows: true,

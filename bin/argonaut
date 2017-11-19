@@ -13,8 +13,7 @@ require 'optparse'
 
 # By default show user's reservations if no arguments are supplied
 options = { action: 'list_reservations' }
-
-options.merge! Argonaut::Settings.read_config['options']
+options.merge! Argonaut::Settings.config[:options]
 
 begin
   OptionParser.new do |opts|

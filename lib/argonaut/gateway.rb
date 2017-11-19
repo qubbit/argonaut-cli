@@ -7,6 +7,7 @@ module Argonaut
 
     attr_reader :api_token
     attr_reader :url_root
+    ERROR_MESSAGE = 'Could not load settings file ~/.argonaut.yml'.freeze
 
     # Initializes the HTTP gateway to connect to argonaut's API endpoint
     # The consumer of this API can supply an API token and
@@ -43,12 +44,15 @@ module Argonaut
       }
 
       if ENV['ARGONAUT_API_TOKEN'].nil?
-        raise Argonaut::Exceptions::InvalidConfigurationError.new 'Could not get API token required to connect to Argonaut'
+        raise Argonaut::Exceptions::InvalidConfigurationError.new ERROR_MESSAGE
       end
 
       if ENV['ARGONAUT_URL_ROOT'].nil?
-        raise Argonaut::Exceptions::InvalidConfigurationError.new 'Could not get Argonaut URL root'
+        raise Argonaut::Exceptions::InvalidConfigurationError.new ERROR_MESSAGE
       end
+    rescue Argonaut::Exceptions::InvalidConfigurationError => ice
+      puts ice.message
+      exit(2)
     end
 
     def url_from_path(path)
