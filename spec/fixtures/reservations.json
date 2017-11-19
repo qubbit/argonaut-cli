@@ -1,0 +1,291 @@
+{
+    "applications": [
+        {
+            "id": 1,
+            "name": "admin",
+            "ping": "_ping",
+            "repo": "pbm/autobahn",
+            "team_id": 1
+        },
+        {
+            "id": 2,
+            "name": "dashboard",
+            "ping": "_ping",
+            "repo": "pbm/dashboard",
+            "team_id": 1
+        },
+        {
+            "id": 4,
+            "name": "eligibility",
+            "ping": "_ping",
+            "repo": "pbm/eligibility_gateway",
+            "team_id": 1
+        },
+        {
+            "id": 5,
+            "name": "epa_gateway",
+            "ping": "_ping",
+            "repo": "pbm/epa_gateway",
+            "team_id": 1
+        },
+        {
+            "id": 3,
+            "name": "epamotron",
+            "ping": "_ping",
+            "repo": "pbm/epamotron",
+            "team_id": 1
+        },
+        {
+            "id": 7,
+            "name": "fake-plan-payer",
+            "ping": "_ping",
+            "repo": "pbm/fake-plan-payer",
+            "team_id": 1
+        },
+        {
+            "id": 8,
+            "name": "formbuilder",
+            "ping": "_ping",
+            "repo": "pbm/formbuilder",
+            "team_id": 1
+        },
+        {
+            "id": 9,
+            "name": "pa-starter",
+            "ping": "_ping",
+            "repo": "pbm/pa-starter",
+            "team_id": 1
+        },
+        {
+            "id": 6,
+            "name": "pbmproxy",
+            "ping": "_ping",
+            "repo": "pbm/pbmproxy",
+            "team_id": 1
+        },
+        {
+            "id": 10,
+            "name": "pdfmotron",
+            "ping": "_ping",
+            "repo": "pbm/pdfmotron",
+            "team_id": 1
+        },
+        {
+            "id": 11,
+            "name": "renewals-api",
+            "ping": "_ping",
+            "repo": "pbm/renewals-api",
+            "team_id": 1
+        },
+        {
+            "id": 12,
+            "name": "request-updater",
+            "ping": "_ping",
+            "repo": "pbm/request-updater",
+            "team_id": 1
+        }
+    ],
+    "environments": [
+        {
+            "description": "EPA1",
+            "id": 2,
+            "name": "epa1",
+            "team_id": 1
+        },
+        {
+            "description": "EPA2",
+            "id": 3,
+            "name": "epa2",
+            "team_id": 1
+        },
+        {
+            "description": "PBM1",
+            "id": 1,
+            "name": "pbm1",
+            "team_id": 1
+        },
+        {
+            "description": "EPA performance testing environment",
+            "id": 4,
+            "name": "perf3",
+            "team_id": 1
+        }
+    ],
+    "reservations": [
+        {
+            "application": {
+                "id": 9,
+                "name": "pa-starter",
+                "ping": "_ping",
+                "repo": "pbm/pa-starter",
+                "team_id": 1
+            },
+            "environment": {
+                "description": "PBM1",
+                "id": 1,
+                "name": "pbm1",
+                "team_id": 1
+            },
+            "id": 85,
+            "reserved_at": "2017-11-08 05:00:06Z",
+            "user": {
+                "avatar_url": "https://www.gravatar.com/avatar/93ae01348f91990d3fccf319b47b81e6?d=identicon",
+                "first_name": null,
+                "id": 1,
+                "last_name": null,
+                "time_zone": "America/New_York",
+                "username": "jason"
+            }
+        },
+        {
+            "application": {
+                "id": 3,
+                "name": "epamotron",
+                "ping": "_ping",
+                "repo": "pbm/epamotron",
+                "team_id": 1
+            },
+            "environment": {
+                "description": "PBM1",
+                "id": 1,
+                "name": "pbm1",
+                "team_id": 1
+            },
+            "id": 82,
+            "reserved_at": "2017-11-08 04:59:58Z",
+            "user": {
+                "avatar_url": "https://www.gravatar.com/avatar/93ae01348f91990d3fccf319b47b81e6?d=identicon",
+                "first_name": null,
+                "id": 1,
+                "last_name": null,
+                "time_zone": "America/New_York",
+                "username": "jason"
+            }
+        },
+        {
+            "application": {
+                "id": 1,
+                "name": "admin",
+                "ping": "_ping",
+                "repo": "pbm/autobahn",
+                "team_id": 1
+            },
+            "environment": {
+                "description": "PBM1",
+                "id": 1,
+                "name": "pbm1",
+                "team_id": 1
+            },
+            "id": 83,
+            "reserved_at": "2017-11-08 05:00:00Z",
+            "user": {
+                "avatar_url": "https://www.gravatar.com/avatar/93ae01348f91990d3fccf319b47b81e6?d=identicon",
+                "first_name": null,
+                "id": 1,
+                "last_name": null,
+                "time_zone": "America/New_York",
+                "username": "jason"
+            }
+        },
+        {
+            "application": {
+                "id": 8,
+                "name": "formbuilder",
+                "ping": "_ping",
+                "repo": "pbm/formbuilder",
+                "team_id": 1
+            },
+            "environment": {
+                "description": "EPA1",
+                "id": 2,
+                "name": "epa1",
+                "team_id": 1
+            },
+            "id": 84,
+            "reserved_at": "2017-11-08 05:00:02Z",
+            "user": {
+                "avatar_url": "https://www.gravatar.com/avatar/93ae01348f91990d3fccf319b47b81e6?d=identicon",
+                "first_name": null,
+                "id": 1,
+                "last_name": null,
+                "time_zone": "America/New_York",
+                "username": "jason"
+            }
+        },
+        {
+            "application": {
+                "id": 3,
+                "name": "epamotron",
+                "ping": "_ping",
+                "repo": "pbm/epamotron",
+                "team_id": 1
+            },
+            "environment": {
+                "description": "EPA1",
+                "id": 2,
+                "name": "epa1",
+                "team_id": 1
+            },
+            "id": 86,
+            "reserved_at": "2017-11-08 21:48:04Z",
+            "user": {
+                "avatar_url": "https://www.gravatar.com/avatar/93ae01348f91990d3fccf319b47b81e6?d=identicon",
+                "first_name": null,
+                "id": 1,
+                "last_name": null,
+                "time_zone": "America/New_York",
+                "username": "jason"
+            }
+        },
+        {
+            "application": {
+                "id": 2,
+                "name": "dashboard",
+                "ping": "_ping",
+                "repo": "pbm/dashboard",
+                "team_id": 1
+            },
+            "environment": {
+                "description": "EPA1",
+                "id": 2,
+                "name": "epa1",
+                "team_id": 1
+            },
+            "id": 81,
+            "reserved_at": "2017-11-08 04:59:56Z",
+            "user": {
+                "avatar_url": "https://www.gravatar.com/avatar/93ae01348f91990d3fccf319b47b81e6?d=identicon",
+                "first_name": null,
+                "id": 1,
+                "last_name": null,
+                "time_zone": "America/New_York",
+                "username": "jason"
+            }
+        },
+        {
+            "application": {
+                "id": 3,
+                "name": "epamotron",
+                "ping": "_ping",
+                "repo": "pbm/epamotron",
+                "team_id": 1
+            },
+            "environment": {
+                "description": "EPA2",
+                "id": 3,
+                "name": "epa2",
+                "team_id": 1
+            },
+            "id": 87,
+            "reserved_at": "2017-11-08 21:48:05Z",
+            "user": {
+                "avatar_url": "https://www.gravatar.com/avatar/93ae01348f91990d3fccf319b47b81e6?d=identicon",
+                "first_name": null,
+                "id": 1,
+                "last_name": null,
+                "time_zone": "America/New_York",
+                "username": "jason"
+            }
+        }
+    ]
+}

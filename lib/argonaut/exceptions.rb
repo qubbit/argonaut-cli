@@ -1,5 +1,5 @@
 module Argonaut
-  class Exceptions
+  module Exceptions
     class InvalidConfigurationError < StandardError; end
   end
 end

@@ -1,17 +1,19 @@
 require_relative './argonaut/gateway'
 require_relative './argonaut/cli'
+require_relative './argonaut/settings'
+require_relative './argonaut/constants'
 require 'date'
+require 'pp'
 
 module Argonaut
   def self.exec(options)
-    puts options.inspect if options.verbose
+    puts "Executing argonaut command with options:\n#{options}" if options.verbose
     gateway = Argonaut::Gateway.new(api_token: nil, url_root: nil)
     interface = Argonaut::Cli.new(gateway: gateway)
 
-    action = options.action
-    @colorize_rows = options.colorize_rows
+    @options = options
 
-    case action
+    case options.action
     when 'find_app'
       puts interface.find_app(options.application)
     when 'release'
@@ -34,46 +36,12 @@ module Argonaut
     end
   end
 
-  class Thing
-    def ==(other)
-      @id == other.id
-    end
-
-    def hash
-      @id.hash
-    end
-
-    def eql?(other)
-      self == other
-    end
-  end
-
-  class Application < Thing
-    attr_reader :id, :team_id, :name, :repo, :ping
-
-    def initialize(id:, team_id:, name:, repo:, ping:)
-      @id = id
-      @team_id = team_id
-      @name = name
-    end
-  end
-
-  class Environment < Thing
-    attr_reader :id, :name, :description
-
-    def initialize(id:, name:, description:)
-      @id = id
-      @name = name
-      @description = description
-    end
-  end
-
   private_class_method
 
   require 'terminal-table'
 
   def self.format_date_time(json_time)
-    Time.parse(json_time).strftime('%d %b %Y %l:%M %p')
+    Time.parse(json_time).strftime(@options.time_format || '%d %b %Y %l:%M %p')
   end
 
   def self.print_teams(teams_hash)
@@ -91,7 +59,6 @@ module Argonaut
 
   def self.print_reservations_list(data)
     rows = []
-
     data.each do |r|
       rows << [ r['environment'], r['application'], format_date_time(r['reserved_at']) ]
     end
@@ -128,7 +95,7 @@ module Argonaut
           cells[idx] = r['user']['username']
         end
 
-        row = if @colorize_rows
+        row = if @options.colorize_rows
           colorize_row([ a['name'] ] + cells, sentinel)
         else
           [ a['name'] ] + cells
@@ -142,9 +109,10 @@ module Argonaut
     puts table
   end
 
-  @colors = [122, 141, 153, 163, 172, 178, 183, 186, 223]
+  @colors               = [122, 141, 153, 163, 172, 178, 183, 186, 223]
+  @high_contrast_colors = [122, 141, 153, 163, 172, 178, 183, 186, 223]
+
   def self.color(index)
-    # (2 * index + 126) % 159
     @colors[index % @colors.length]
   end
 

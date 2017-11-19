@@ -6,8 +6,6 @@ require 'pry'
 begin
   require File.dirname(THIS_FILE) + '/../lib/argonaut'
 rescue LoadError
-  # require 'argonaut'
-  # Dir[File.dirname(THIS_FILE) + '/lib/*.rb'].each {|file| require file }
   require "#{Dir.pwd}/lib/argonaut"
 end
 
@@ -15,6 +13,8 @@ require 'optparse'
 
 # By default show user's reservations if no arguments are supplied
 options = { action: 'list_reservations' }
+
+options.merge! Argonaut::Settings.read_config['options']
 
 begin
   OptionParser.new do |opts|
@@ -62,10 +62,12 @@ begin
   end.parse!
 rescue OptionParser::InvalidOption
   $stderr.puts 'Invalid option supplied. Enter argonaut -h for help'
+  exit(2)
 rescue OptionParser::MissingArgument => ma
   if ["-r", "-R"].include? ma.args.first
     $stderr.puts 'Options -r and -R require <environment>:<app_name>'
   end
+  exit(2)
 end
 
 require 'ostruct'

@@ -43,11 +43,11 @@ module Argonaut
       }
 
       if ENV['ARGONAUT_API_TOKEN'].nil?
-        raise Argonaut::Exceptions::InvalidConfiguration.new 'Could not get API token required to connect to Argonaut'
+        raise Argonaut::Exceptions::InvalidConfigurationError.new 'Could not get API token required to connect to Argonaut'
       end
 
       if ENV['ARGONAUT_URL_ROOT'].nil?
-        raise Argonaut::Exceptions::InvalidConfiguration.new 'Could not get Argonaut URL root'
+        raise Argonaut::Exceptions::InvalidConfigurationError.new 'Could not get Argonaut URL root'
       end
     end
 

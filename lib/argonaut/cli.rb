@@ -14,10 +14,12 @@ module Argonaut
       raw_data['data']
     end
 
+    # Gets all the reservations for the given team
     def reservations(team_name_or_id)
       @gateway.fetch(path: "teams/#{team_name_or_id}/reservations")
     end
 
+    # Gets list of current user's reservations
     def list_reservations
       @gateway.fetch(path: "list_reservations")
     end
