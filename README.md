@@ -1,38 +1,85 @@
-# Argonaut
+# Argonaut CLI
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/argonaut`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Use Argonaut from your command line!
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
 ```ruby
-gem 'argonaut'
+gem install argonaut-cli
 ```
 
-And then execute:
+Create the config file `~/.argonaut.yml` and populate it with the sample config below:
 
-    $ bundle
+```yaml
+# The only required fields for the gem to run are api_token and url_root
 
-Or install it yourself as:
+api_token: YOUR_TOKEN
+url_root: https://theargonaut-api.herokuapp.com
 
-    $ gem install argonaut
+# Below are the optional settings to customize output
+
+options:
+  colorize_rows: true
+  time_format: '%d %b %Y %l:%M %p'
+  high_contrast_colors: true
+```
+
+Replace `YOUR_TOKEN` in the sample config above with your own token that can be found in the Profile page in the web app.
+
+You can also export environment variables `ARGONAUT_API_TOKEN` and `ARGONAUT_URL_ROOT` with the correct values without needing a config file.
 
 ## Usage
 
-TODO: Write usage instructions here
+By default, invoking `argonaut` lists all your environment reservations.
+
+**View all registered teams:**
+
+```
+argonaut -T
+```
+
+**View reservations table on a particular team's environments:**
+
+Using team id
+```
+argonaut -t 1
+```
+
+Using team name
+```
+argonaut -t EPA
+```
+
+**Make a reservation:**
+
+```
+argonaut -r pbm1:epamotron
+```
+
+**Release when you are done testing in that environment:**
+
+```
+argonaut -r pbm1:epamotron
+```
+**Clear all your reservations at once**
+
+```
+argonaut -c
+```
+
+Full list of options can be viewed by running `argonaut -h`. If you are using zsh, you can generate shell completion and add it to your `~/.zshrc` like so:
+
+```
+echo compdef _gnu_generic argonaut >> ~/.zshrc
+```
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/argonaut. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/qubbit/argonaut-cli/issues. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

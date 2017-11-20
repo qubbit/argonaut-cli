@@ -41,7 +41,7 @@ module Argonaut
   require 'terminal-table'
 
   def self.format_date_time(json_time)
-    Time.parse(json_time).strftime(@options.time_format || '%d %b %Y %l:%M %p')
+    Time.parse(json_time).getlocal.strftime(@options.time_format || '%d %b %Y %l:%M %p')
   end
 
   def self.print_teams(teams_hash)
@@ -109,11 +109,17 @@ module Argonaut
     puts table
   end
 
-  @colors               = [122, 141, 153, 163, 172, 178, 183, 186, 223]
-  @high_contrast_colors = [122, 141, 153, 163, 172, 178, 183, 186, 223]
+  def self.colors
+    @colors ||= if @options.high_contrast_colors
+      # high contrast colors are based on solarized: http://ethanschoonover.com/solarized
+      [136, 166, 160, 125, 61, 33, 37, 64]
+    else
+      [122, 141, 153, 163, 172, 178, 183, 186, 223]
+    end
+  end
 
   def self.color(index)
-    @colors[index % @colors.length]
+    colors[index % colors.length]
   end
 
   def self.colorize_row(row, index)

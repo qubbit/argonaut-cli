@@ -2,7 +2,6 @@
 
 THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
 
-require 'pry'
 begin
   require File.dirname(THIS_FILE) + '/../lib/argonaut'
 rescue LoadError
@@ -13,7 +12,7 @@ require 'optparse'
 
 # By default show user's reservations if no arguments are supplied
 options = { action: 'list_reservations' }
-options.merge! Argonaut::Settings.config[:options]
+options.merge! Argonaut::Settings.config.fetch(:options, {})
 
 begin
   OptionParser.new do |opts|

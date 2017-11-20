@@ -1,4 +1,4 @@
-require_relative './exceptions'
+require_relative './constants'
 require 'httparty'
 require 'uri'
 
@@ -7,7 +7,8 @@ module Argonaut
 
     attr_reader :api_token
     attr_reader :url_root
-    ERROR_MESSAGE = 'Could not load settings file ~/.argonaut.yml'.freeze
+
+    C = Argonaut::Constants
 
     # Initializes the HTTP gateway to connect to argonaut's API endpoint
     # The consumer of this API can supply an API token and
@@ -27,6 +28,16 @@ module Argonaut
       else
         @url_root = url_root
       end
+
+      if @url_root.nil?
+        $stderr.puts C::NO_URL_ROOT_ERROR_MESSAGE
+        exit(2)
+      end
+
+      if @api_token.nil?
+        $stderr.puts C::NO_API_TOKEN_ERROR_MESSAGE
+        exit(2)
+      end
     end
 
     def config
@@ -43,16 +54,10 @@ module Argonaut
         'url_root'  => ENV['ARGONAUT_URL_ROOT']
       }
 
-      if ENV['ARGONAUT_API_TOKEN'].nil?
-        raise Argonaut::Exceptions::InvalidConfigurationError.new ERROR_MESSAGE
+      if ENV['ARGONAUT_API_TOKEN'].nil? || ENV['ARGONAUT_URL_ROOT'].nil?
+        $stderr.puts C::NO_CONFIG_ERROR_MESSAGE
+        exit(2)
       end
-
-      if ENV['ARGONAUT_URL_ROOT'].nil?
-        raise Argonaut::Exceptions::InvalidConfigurationError.new ERROR_MESSAGE
-      end
-    rescue Argonaut::Exceptions::InvalidConfigurationError => ice
-      puts ice.message
-      exit(2)
     end
 
     def url_from_path(path)
@@ -105,7 +110,7 @@ module Argonaut
     end
 
     def self.load_config_from_file
-      YAML.load_file("#{Dir.home}/.argonaut.yml")
+      YAML.load_file(C::SETTINGS_FILE)
     rescue
       nil
     end
