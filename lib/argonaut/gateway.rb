@@ -65,49 +65,20 @@ module Argonaut
       URI.join(@url_root, "/api/readonly/#{path}?token=#{@api_token}").to_s
     end
 
-    def delete(path:, data:)
-      response = HTTParty.delete(url_from_path(path), query: data)
+    %i{ delete get post }.each do |verb|
+      define_method(verb) do |path:, data: nil|
+        response = HTTParty.send(verb, url_from_path(path), query: data)
 
-      if response.ok?
-        JSON(response.body)
-      else
-        puts response.body
+        if response.ok?
+          JSON(response.body)
+        else
+          puts response.body
+        end
       end
     end
 
-    def fetch(path:, data: nil)
-      response = if data
-        HTTParty.get(url_from_path(path), query: data)
-      else
-        HTTParty.get(url_from_path(path))
-      end
-
-      if response.ok?
-        JSON(response.body)
-      else
-        nil
-      end
-    end
-
-    def post_form_data(path:, data:)
-      response = HTTParty.post(url_from_path(path), query: data)
-
-      if response.ok?
-        JSON(response.body)
-      else
-        puts response.body
-      end
-    end
-
-    def post(path:, data:)
-      response = HTTParty.post(url_from_path(path), data)
-
-      if response.ok?
-        JSON(response.body)
-      else
-        puts response.body
-      end
-    end
+    # I made fetch happen 😬
+    alias fetch get
 
     def self.load_config_from_file
       YAML.load_file(C::SETTINGS_FILE)

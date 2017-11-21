@@ -30,7 +30,7 @@ module Argonaut
 
     def reserve!(env_name, app_name)
       data = { application_name: app_name, environment_name: env_name }
-      @gateway.post_form_data(path: "reservations", data: data)
+      @gateway.post(path: "reservations", data: data)
     end
 
     def release!(env_name, app_name)
