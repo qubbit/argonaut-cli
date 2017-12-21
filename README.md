@@ -59,7 +59,7 @@ argonaut -r pbm1:epamotron
 **Release when you are done testing in that environment:**
 
 ```
-argonaut -r pbm1:epamotron
+argonaut -R pbm1:epamotron
 ```
 **Clear all your reservations at once**
 
