@@ -29,7 +29,7 @@ module Argonaut
       status = interface.reservations(options.team)
       print_status(status)
     when 'clear_reservations'
-      status = interface.clear_reservations
+      puts interface.clear_reservations
     when 'list_reservations'
       data = interface.list_reservations.fetch('data', nil)
       print_reservations_list(data)
@@ -58,19 +58,33 @@ module Argonaut
   end
 
   def self.print_reservations_list(data)
-    rows = []
-    data.each do |r|
-      rows << [ r['environment'], r['application'], format_date_time(r['reserved_at']) ]
+    if data.empty?
+      puts 'You have not reserved any environments for testing 😏'
+      return
     end
 
-    table = Terminal::Table.new :headings => [ 'Environment', 'Application', 'Reserved At' ], :rows => rows
+    rows = []
+    rows << [ 'Environment', 'Application', 'Reserved At' ]
+    table = Terminal::Table.new :rows => rows
+    table << :separator
+
+    data.each do |r|
+      table.add_row [ r['environment'], r['application'], format_date_time(r['reserved_at']) ]
+    end
+
     puts table
   end
 
   def self.print_status(status_hash)
-    applications = status_hash['applications']
-    environments = status_hash['environments']
-    reservations = status_hash['reservations']
+
+    unless status_hash
+      puts 'Nothing was found here 😟'
+      return
+    end
+
+    applications = status_hash.fetch('applications', [])
+    environments = status_hash.fetch('environments', [])
+    reservations = status_hash.fetch('reservations', [])
 
     header = [' '] + environments.map {|e| e['name'] }
     rows = []
