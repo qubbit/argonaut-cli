@@ -1,4 +1,4 @@
-# Argonaut CLI
+# 🛶⚡️ Argonaut CLI
 
 Use Argonaut from your command line!
 
@@ -11,7 +11,7 @@ gem install argonaut-cli
 Create the config file `~/.argonaut.yml` and populate it with the sample config below:
 
 ```yaml
-# The only required fields for the gem to run are api_token and url_root
+# The only required fields needed by the gem to function are api_token and url_root
 
 api_token: YOUR_TOKEN
 url_root: https://theargonaut-api.herokuapp.com
