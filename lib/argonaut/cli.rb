@@ -42,5 +42,27 @@ module Argonaut
       data = { application_name: app_name }
       @gateway.fetch(path: "find_application", data: data)
     end
+
+    def initialize_configuration_file
+      return false if File.exist? Argonaut::Constants::SETTINGS_FILE
+
+      File.open( Argonaut::Constants::SETTINGS_FILE, "w" ) do |f|
+        f.write %q(
+# The only required fields needed by the gem to function are api_token and url_root
+
+api_token: YOUR_TOKEN
+url_root: https://theargonaut-api.herokuapp.com
+
+# Below are the optional settings to customize output
+
+options:
+  colorize_rows: true
+  time_format: '%d %b %Y %l:%M %p'
+  high_contrast_colors: true
+)
+      end
+      true
+    end
+
   end
 end

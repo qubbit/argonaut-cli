@@ -33,6 +33,12 @@ module Argonaut
     when 'list_reservations'
       data = interface.list_reservations.fetch('data', nil)
       print_reservations_list(data)
+    when 'init_configuration'
+      if interface.initialize_configuration_file
+        puts "'#{SETTINGS_FILE}' initialized. Modify to update your api token"
+      else
+        puts "'#{SETTINGS_FILE}' already exists. No initialization needed"
+      end
     end
   end
 
