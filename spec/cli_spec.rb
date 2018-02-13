@@ -84,5 +84,23 @@ describe Argonaut::Cli do
       expect { cli.clear_reservations }.to_not raise_error
       expect(s).to have_been_requested
     end
+
+    it 'config exists: does not initialize configuration' do
+      expect(File).to receive(:exist?).and_return(true)
+      expect(File).to_not receive(:open)
+
+      expect(cli.initialize_configuration_file).to be_falsey
+    end
+
+    it 'config missing: initializes configuration' do
+      expect(File).to receive(:exist?).and_return(false)
+      mock_file = StringIO.new
+      expect(File).to receive(:open).with(Argonaut::Constants::SETTINGS_FILE, 'w').and_yield(mock_file)
+
+      expect(cli.initialize_configuration_file).to equal(true)
+      ['api_token: YOUR_TOKEN', 'url_root:'].each do |str|
+        expect(mock_file.string).to include(str)
+      end
+    end
   end
 end

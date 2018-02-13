@@ -18,6 +18,10 @@ begin
   OptionParser.new do |opts|
     opts.banner = "Usage: argonaut [options]"
 
+    opts.on("--init", "Initialize an argonaut installation by creates a default argonaut.yml file") do |c|
+      options[:action] = 'init_configuration'
+    end
+
     opts.on("-T", "--teams", "Show all teams") do |c|
       options[:action] = 'show_teams'
     end
