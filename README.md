@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/qubbit/argonaut-cli.svg?branch=master)](https://travis-ci.org/qubbit/argonaut-cli)
+
 # 🛶⚡️ Argonaut CLI
 
 Use Argonaut from your command line!
