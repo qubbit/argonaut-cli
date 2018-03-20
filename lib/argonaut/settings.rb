@@ -2,11 +2,10 @@ require_relative './constants'
 
 module Argonaut
   class Settings
-    def self.config
-      @config ||= read_config
-    end
-
     class << self
+      def config
+        @config ||= read_config
+      end
 
       def read_config
         deep_symbolize(YAML.load_file(Argonaut::Constants::SETTINGS_FILE))
@@ -23,7 +22,6 @@ module Argonaut
         return obj.inject([]){|memo,v| memo << deep_symbolize(v); memo} if obj.is_a? Array
         return obj
       end
-
     end
   end
 end
